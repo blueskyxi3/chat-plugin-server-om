@@ -1,0 +1,65 @@
+{
+    "$schema": "../node_modules/@lobehub/chat-plugin-sdk/schema.json",
+    "api": [
+        {
+            "url": "http://localhost:3500/api/execute",
+            "name": "executeShell",
+            "description": "Execute a shell script on specified servers.",
+            "parameters": {
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "description": "The shell script to execute."
+                    },
+                    "ips": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Array of server IPs. Optional."
+                    }
+                },
+                "required": [
+                    "command",
+                    "ips"
+                ],
+                "type": "object"
+            }
+        },
+        {
+            "url": "http://localhost:3500/api/query",
+            "name": "queryServers",
+            "description": "Query the list of servers based on a keyword.",
+            "parameters": {
+                "properties": {
+                    "keyword": {
+                        "type": "string",
+                        "description": "The keyword to query servers, e.g., '192.168'. Optional."
+                    }
+                },
+                "required": [],
+                "type": "object"
+            }
+        }
+    ],
+    "author": "Grok",
+    "createdAt": "2025-08-29",
+    "identifier": "server-management-plugin",
+    "meta": {
+        "avatar": "🛡️",
+        "tags": [
+            "server",
+            "shell",
+            "management"
+        ],
+        "title": "Server Management Plugin",
+        "description": "A plugin to execute shell commands on servers and query server lists."
+    },
+    "type": "standalone",
+    "ui": {
+        "url": "http://localhost:3500/iframe",
+        "height": 320,
+        "width": 800
+    },
+    "version": "1"
+}
