@@ -8,7 +8,6 @@ const QueryServers = ({
     filterIp,
     setFilterIp,
     servers,
-    setServers,
     selectedRowKeys,
     setSelectedRowKeys,
     handleQueryServers,
@@ -30,46 +29,46 @@ const QueryServers = ({
     };
 
     return (
-        <Center style={{ height: 250, position: 'relative', width: '100%', overflow: 'hidden' }}>
+        <Center style={{ height: 250, overflow: 'hidden', position: 'relative', width: '100%',  }}>
             <div style={{ width: '100%' }}>
-                <div style={{ marginBottom: 16, display: 'flex', gap: 8 }}>
+                <div style={{  display: 'flex',  gap: 8, marginBottom: 16,}}>
                     <Input
-                        placeholder="根据IP过滤"
-                        value={filterIp}
                         onChange={(e) => setFilterIp(e.target.value)}
+                        placeholder="根据IP过滤"
                         style={{ width: 200 }}
+                        value={filterIp}
                     />
                     <Button
-                        type="primary"
+                        disabled={isConfirmed} // 确认后禁用查询按钮
                         loading={loading}
                         onClick={handleQueryServers}
-                        disabled={isConfirmed} // 确认后禁用查询按钮
+                        type="primary"
                     >
                         查询
                     </Button>
                     <Button
-                        type="default"
+                        disabled={isConfirmed || selectedRowKeys.length === 0} 
                         onClick={handleConfirm}
-                        disabled={isConfirmed || selectedRowKeys.length === 0} // 确认后或没有选中项时禁用确认按钮
+                        type="default"
                     >
                         确认
                     </Button>
 
                 </div>
                 <Table
-                    dataSource={servers.filter((s: any) => !filterIp || s.ip.includes(filterIp))}
                     columns={[
-                        { title: 'IP地址', dataIndex: 'ip', key: 'ip' },
-                        { title: '状态', dataIndex: 'status', key: 'status' },
+                        { dataIndex: 'ip',key: 'ip',title: 'IP地址', },
+                        { dataIndex: 'status', key: 'status', title: '状态', },
                     ]}
-                    rowKey="ip"
+                    dataSource={servers.filter((s: any) => !filterIp || s.ip.includes(filterIp))}
                     pagination={false}
-                    size="small"
+                    rowKey="ip"
                     rowSelection={{
-                        selectedRowKeys,
                         onChange: setSelectedRowKeys,
+                        selectedRowKeys,
                         type: 'checkbox',
                     }}
+                    size="small"
                 />
             </div>
         </Center>

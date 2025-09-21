@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run doctor && npm run build",
     "prettier": "prettier -c --write \"**/**\"",
     "release": "semantic-release",
-    "start": "next start",
+    "start": "next start -p 3500",
     "test": "vitest --passWithNoTests",
     "test:coverage": "vitest --coverage  --passWithNoTests",
     "type-check": "tsc --noEmit"
