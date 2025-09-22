@@ -39,7 +39,6 @@ This is the plugin template for LobeChat plugin development
 - [🔗 Links](#-links)
 
 ####
-
 </details>
 
 ## 🌟 Features
@@ -94,6 +93,10 @@ $ git clone https://github.com/lobehub/chat-plugin-template.git
 $ cd chat-plugin-template
 $ bun install
 $ bun dev
+
+
+docker run -d --name myom -p 3500:3500 bluesky2006/plugin-server-om:0.0.2
+
 ```
 
 <div align="right">

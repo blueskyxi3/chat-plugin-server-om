@@ -1,7 +1,8 @@
-import { Button, Input, Table, message } from 'antd';
+import { Button, Input, Table, App } from 'antd';
 import { useState } from 'react';
 import { Center } from 'react-layout-kit';
-import { lobeChat } from '@lobehub/chat-plugin-sdk/client';
+import { lobeChat  } from '@lobehub/chat-plugin-sdk/client';
+
 
 const QueryServers = ({
     loading,
@@ -13,17 +14,19 @@ const QueryServers = ({
     handleQueryServers,
 }: any) => {
     const [isConfirmed, setIsConfirmed] = useState(false);
+    const { message } = App.useApp();
 
-    const handleConfirm = () => {
+    const handleConfirm =async () => {
         if (selectedRowKeys.length === 0) {
             message.warning('请确认服务器');
             return;
         }
         message.success(`已选择服务器: ${selectedRowKeys.join(', ')}`);
-        lobeChat.getPluginMessage().then(content => console.log('当前消息内容-------->', content));
         lobeChat.setPluginMessage({ "IPs": selectedRowKeys });
-        lobeChat.triggerAIMessage('qw001xxx1');
-        //lobeChat.createAssistantMessage('已确认服务器');
+        lobeChat.getPluginMessage().then((msg: any)=>{
+         lobeChat.triggerAIMessage(msg);
+        }); 
+        // lobeChat.createAssistantMessage('已确认服务器');
 
         setIsConfirmed(true);
     };

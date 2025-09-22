@@ -17,7 +17,7 @@ const Render = memo(() => {
   const [command, setCommand] = useState('');
   const [ipList, setIpList] = useState<string[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
+  console.log('data--->', data);
   
   // 查询服务器
   const handleQueryServers = async (keyword?: string) => {
@@ -26,7 +26,7 @@ const Render = memo(() => {
       // 使用传入的keyword参数，如果没有则使用filterIp状态
       const searchKeyword = filterIp === '' ? keyword : filterIp;
       const manager_server_url = 'https://n8n.example.com/webhook/manager-server?keyword=' + searchKeyword;
-      console.log('manager_server_url------->', manager_server_url);
+      // console.log('manager_server_url------->', manager_server_url);
       // 从接口获取服务器数据
       const res = await fetch(manager_server_url);
       const data = await res.json();
@@ -51,11 +51,10 @@ const Render = memo(() => {
 
   useEffect(() => {
     lobeChat.getPluginMessage().then(setData);
-    console.log('data-->', data);
   }, []);
 
   useEffect(() => {
-    lobeChat.getPluginPayload().then((payload) => {
+    lobeChat.getPluginPayload().then((payload: any) => {
       console.log('payload-->', payload);
       setPayload(payload?.arguments ? { ...payload.arguments, name: payload.name } : payload);
       if (payload?.name === 'executeShell') {
@@ -80,7 +79,7 @@ const Render = memo(() => {
       // 准备请求数据
       const requestData = {
         command: command,
-        ips: ipList.filter(ip => ip.trim() !== '') // 过滤掉空IP
+        ips: ipList.filter((ip: string) => ip.trim() !== '') // 过滤掉空IP
       };
 
       console.log('发送请求数据:', requestData);
@@ -105,9 +104,11 @@ const Render = memo(() => {
       // 发送消息到LobeChat
       lobeChat.setPluginMessage({
         command: command,
-        ips: ipList,
         result: result,
       });
+      lobeChat.getPluginMessage().then((msg: any)=>{
+         lobeChat.triggerAIMessage(msg);
+        });
     } catch (error) {
       console.error('执行命令失败:', error);
       setResult([{
